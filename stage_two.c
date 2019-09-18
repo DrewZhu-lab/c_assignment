@@ -111,9 +111,10 @@ int _word_is_command(char * word){
 void _process_break_command()
 {
     _one_line[strlen(_one_line)-1]='\0';//delete the last space
-    strcat(_one_line,"\r\n");// add extra end char for old lines 
+    strcat(_one_line,"\r");// add extra end char for old lines 
+    strcat(_one_line,"\n");// add extra end char for old lines 
     for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
-        strcat(_one_line," ");
+        strcat(_result," ");
     }
     strcat(_result,_one_line); // copy one_line to one_line_result
     memset(_one_line,'\0',MAX_LINE_LENGTH); // clear current line 
@@ -123,9 +124,12 @@ void _process_break_command()
 **/
 void _process_blank_command(){
     _one_line[strlen(_one_line)-1]='\0';//delete the last space
-    strcat(_one_line,"\r\n\r\n");// add extra end char for old lines 
-    for(int i=0;i<LEFT_SHIFT;++i){
-        strcat(_one_line," ");
+    strcat(_one_line,"\r");// add extra end char for old lines 
+    strcat(_one_line,"\n");// add extra end char for old lines 
+    strcat(_one_line,"\r");// add extra end char for old lines 
+    strcat(_one_line,"\n");// add extra end char for old lines 
+    for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
+        strcat(_result," ");
     }
     strcat(_result,_one_line); // copy one_line to one_line_result
     memset(_one_line,'\0',MAX_LINE_LENGTH); // clear current line 
@@ -137,8 +141,8 @@ void _process_line_width_command(FILE *fp,int * _line_count)
 {
    strcat(_one_line,"\r");
    strcat(_one_line,"\n");
-   strcat(_result,_one_line); // copy one_line to one_line_result
    strcat(_result,"    "); // add first 4 spaces
+   strcat(_result,_one_line); // copy one_line to one_line_result
    memset(_one_line,'\0',MAX_LINE_LENGTH);
    *_line_count=0;
    char number_char;
@@ -167,8 +171,8 @@ void _process_common_word(int *_line_count,int *_word_count,char *word){
         _one_line[strlen(_one_line)-1]='\0';//delete the last space
         strcat(_one_line,"\r");
         strcat(_one_line,"\n");
-        strcat(_result,_one_line); // copy one_line to one_line_result
         strcat(_result,"    "); // add first 4 spaces
+        strcat(_result,_one_line); // copy one_line to one_line_result
         memset(_one_line,'\0',MAX_LINE_LENGTH);
         *_line_count=0;
         strcat(_one_line,word);
@@ -216,8 +220,8 @@ int main(int argc, char **argv)
     _one_line[strlen(_one_line)-1]='\0';
     strcat(_one_line,"\r");
     strcat(_one_line,"\n");
-    strcat(_result,_one_line);
     strcat(_result,"    ");
+    strcat(_result,_one_line);
     FILE *writer = fopen(argv[2],"w");
     fprintf(writer,"%s",_result);
     fclose(fp);

@@ -51,8 +51,8 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
          {
           	_one_line[strlen(_one_line)-1]='\0';//delete the last space
           	strcat(_one_line,"\r");// add first 4 spaces
-                strcat(_one_line,"\n");
-		strcat(_result,"    ");
+            strcat(_one_line,"\n");
+		        strcat(_result,"    ");
           	strcat(_result,_one_line); // copy one_line to one_line_result
           	memset(_one_line,'\0',MAX_LINE_LENGTH);
           	*_line_count=0;
