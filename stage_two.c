@@ -84,6 +84,7 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
             }
             if(!strcmp(word,LINE_WIDTH_COMMAND))
             { 
+              printf("%d",each_char);
               _process_line_width_command(fp,_line_count);
               *p_flag=0;
               *b_flag=0;
@@ -145,7 +146,8 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    char number_char;
    int number_count=0;
    int width_number;
-   while((number_char = fgetc(fp)) != ' '){
+   while((number_char = fgetc(fp)) != ' ')
+   {
        _number[number_count]=number_char;
        number_count++;
    }
