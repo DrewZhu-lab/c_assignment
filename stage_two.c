@@ -145,7 +145,7 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    char number_char;
    int width_number;
    while((number_char = fgetc(fp)) != ' '){
-       stract(_number,number_char);
+       strcat(_number,number_char);
    }
    sscanf(_number, "%d", &width_number);
    printf("%d",width_number);
@@ -187,6 +187,7 @@ void _process_file(FILE * fp)
     memset(word,'\0',MAX_LINE_LENGTH); // initialize word array
     memset(_one_line,'\0',MAX_LINE_LENGTH); // initialize line array
     memset(_result,'\0',MAX_LINE_LENGTH); // initialize result array
+    memset(_number,'\0',MAX_LINE_LENGTH); // initialize result array
     while ((each_char = fgetc(fp)) != EOF) 
     {
         _process_char(fp,
