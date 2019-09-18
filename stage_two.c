@@ -141,6 +141,7 @@ void _process_left_shift_command(){
 }
 void _process_line_width_command(FILE *fp,int * _line_count)
 {
+_one_line[strlen(_one_line)-1]='\0';//delete the last space
    strcat(_one_line,"\r");
    strcat(_one_line,"\n");
    strcat(_one_line,"\r");
