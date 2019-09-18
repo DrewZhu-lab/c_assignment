@@ -141,28 +141,30 @@ void _process_left_shift_command(){
 }
 void _process_line_width_command(FILE *fp,int * _line_count)
 {
-_one_line[strlen(_one_line)-1]='\0';//delete the last space
+   _one_line[strlen(_one_line)-1]='\0';//delete the last space
    strcat(_one_line,"\r");
    strcat(_one_line,"\n");
    strcat(_one_line,"\r");
    strcat(_one_line,"\n");
-   strcat(_result,"    "); // add first 4 spaces
+   for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
+        strcat(_result," ");
+    }
    strcat(_result,_one_line); // copy one_line to one_line_result
-   memset(_one_line,'\0',MAX_LINE_LENGTH);
-   *_line_count=0;
-   char number_char;
-   int number_count=0;
-   int width_number;
-   while((number_char = fgetc(fp)) != 32)
-   {
-       _number[number_count]=number_char;
-       number_count++;
-   }
-   width_number = atoi(_number);
-   printf("%d\n",width_number);
-   LENGTH_LIMIT = width_number;
-   memset(_number,'\0',3); // initialize result array
-   printf("%s\n",_result);
+   // memset(_one_line,'\0',MAX_LINE_LENGTH);
+   // *_line_count=0;
+   // char number_char;
+   // int number_count=0;
+   // int width_number;
+   // while((number_char = fgetc(fp)) != 32)
+   // {
+   //     _number[number_count]=number_char;
+   //     number_count++;
+   // }
+   // width_number = atoi(_number);
+   // printf("%d\n",width_number);
+   // LENGTH_LIMIT = width_number;
+   // memset(_number,'\0',3); // initialize result array
+   // printf("%s\n",_result);
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word){
     if(*_line_count + *_word_count < LENGTH_LIMIT)
