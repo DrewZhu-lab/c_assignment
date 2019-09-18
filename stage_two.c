@@ -143,14 +143,16 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    *_line_count=0;
    fgetc(fp); // skip current char which is space
    char number_char;
+   int number_count=0;
    int width_number;
    while((number_char = fgetc(fp)) != ' '){
-       strcat(_number,number_char);
+       _number[number_count]=number_char;
+       number_char++;
    }
    sscanf(_number, "%d", &width_number);
    printf("%d",width_number);
    LENGTH_LIMIT = width_number;
-
+   memset(_number,'\0',MAX_LINE_LENGTH); // initialize result array
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word){
     if(*_line_count + *_word_count < LENGTH_LIMIT)
