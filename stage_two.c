@@ -155,9 +155,9 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    char number_char;
    int number_count=0;
    int width_number;
-   while((number_char = fgetc(fp)) != 13 || (number_char = fgetc(fp)) != 12)
+   while(number_char=fget(c)!=13 && number_char=fget(c)!=12)
    {
-       printf("%d\n",number_char);
+       printf("%d",number_char)
        _number[number_count]=number_char;
        number_count++;
    }
