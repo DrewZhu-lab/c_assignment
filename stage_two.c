@@ -25,7 +25,7 @@ static int LENGTH_LIMIT=50; // maximum line length
 static int LEFT_SHIFT=4;    // shift space
 static char _one_line[MAX_LINE_LENGTH]; // one line words smaller than MAX_LINE_LENGTH
 static char _result[MAX_LINE_LENGTH];
-static char _number[MAX_LINE_LENGTH];
+static char _number[3];
 void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * blank_flag,int* _line_count,int *p_flag,int *b_flag)
 {
 
@@ -149,9 +149,9 @@ void _process_line_width_command(FILE *fp,int * _line_count)
        _number[number_count]=number_char;
        number_count++;
    }
-   width_number = atoi(number_char);
+   width_number = atoi(_number);
    LENGTH_LIMIT = width_number;
-   memset(_number,'\0',MAX_LINE_LENGTH); // initialize result array
+   memset(_number,'\0',3); // initialize result array
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word){
     if(*_line_count + *_word_count < LENGTH_LIMIT)
@@ -188,7 +188,7 @@ void _process_file(FILE * fp)
     memset(word,'\0',MAX_LINE_LENGTH); // initialize word array
     memset(_one_line,'\0',MAX_LINE_LENGTH); // initialize line array
     memset(_result,'\0',MAX_LINE_LENGTH); // initialize result array
-    memset(_number,'\0',MAX_LINE_LENGTH); // initialize result array
+    memset(_number,'\0',3); // initialize result array
     while ((each_char = fgetc(fp)) != EOF) 
     {
         _process_char(fp,
