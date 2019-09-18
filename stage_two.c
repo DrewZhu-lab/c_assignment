@@ -143,6 +143,8 @@ void _process_line_width_command(FILE *fp,int * _line_count)
 {
    strcat(_one_line,"\r");
    strcat(_one_line,"\n");
+   strcat(_one_line,"\r");
+   strcat(_one_line,"\n");
    strcat(_result,"    "); // add first 4 spaces
    strcat(_result,_one_line); // copy one_line to one_line_result
    memset(_one_line,'\0',MAX_LINE_LENGTH);
