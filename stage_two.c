@@ -17,7 +17,7 @@ void _process_char(FILE *fp,char ch,char* word,int * blank_flag,int * _word_coun
 void _process_break_command();
 void _process_blank_command();
 void _process_left_shift_command();
-void _process_line_width_command(FILE * fp);
+void _process_line_width_command(FILE * fp,int * _line_count);
 void _process_common_word(int *_line_count,int *_word_count,char *word);
 int _word_is_command(char * word);
 /****************************************************************/
@@ -94,7 +94,7 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
        {
          *p_flag=0;
          *b_flag=0;
-         _process_common_word(*_line_count,*_word_count,word);
+         _process_common_word(_line_count,_word_count,word);
        }
        
        memset(word,'\0',MAX_LINE_LENGTH);
@@ -133,7 +133,7 @@ void _process_blank_command(){
 void _process_left_shift_command(){
 
 }
-void _process_line_width_command(FILE *fp)
+void _process_line_width_command(FILE *fp,int * _line_count)
 {
    strcat(_one_line,"\r");
    strcat(_one_line,"\n");
