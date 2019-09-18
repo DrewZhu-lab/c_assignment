@@ -16,6 +16,8 @@ void _process_file(FILE * fp);
 void _process_char(FILE *fp,char ch,char* word,int * blank_flag,int * _word_count,int* _line_count,int *p_flag,int *b_flag);
 void _process_break_command();
 void _process_blank_command();
+void _process_left_shift_command();
+void _process_line_width_command(FILE * fp);
 void _process_common_word(int *_line_count,int *_word_count,char *word);
 int _word_is_command(char * word);
 /****************************************************************/
@@ -23,6 +25,7 @@ static int LENGTH_LIMIT=50; // maximum line length
 static int LEFT_SHIFT=4;    // shift space
 static char _one_line[MAX_LINE_LENGTH]; // one line words smaller than MAX_LINE_LENGTH
 static char _result[MAX_LINE_LENGTH];
+static char _number[MAX_LINE_LENGTH];
 void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * blank_flag,int* _line_count,int *p_flag,int *b_flag)
 {
 
@@ -40,34 +43,50 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
 
           if (!strcmp(word,BREAK_LINE_COMMAND) && !(*b_flag))  // word == .b  -> break current line
             {
-                _process_break_command();
-                *b_flag=1; // avoid consecutive break
-                *_line_count=0; // reset the one_line_count
+               if(each_char == '\n'|| each_char=='\r') // if the command followed by other word . it's just command word not a command
+                {
+                  _process_break_command();
+                  *b_flag=1; // avoid consecutive break
+                  *p_flag=0; // reset p_flag
+                  *_line_count=0; // reset the one_line_count
+                }
+                else
+                {
+                   _process_common_word(_line_count,_word_count,word);
+                   *p_flag=0;
+                   *b_flag=0;
+                }
+                
             }
             
             if (!strcmp(word,BLANK_LINE_COMMAND) && !(*p_flag)) // word == .p -> leave new line
             {
-                if(each_char == '\n' || each_char =='\r') // if the command followed by other word . it's just command word not a command
-		{
+                if(each_char == '\n'|| each_char=='\r') // if the command followed by other word . it's just command word not a command
+                {
                   _process_blank_command();
                   *p_flag=1;
+                  *b_flag=0; // reset b_flag;
                   *_line_count=0; // reset the one_line_count
                 }
                 else
                 { // this part is same as the next branch . 
                     // Just leave these lines here for better understanding
                   _process_common_word(_line_count,_word_count,word);
-                  
+                  *p_flag=0;
+                  *b_flag=0;
                 }
             }
             if(!strcmp(word,LEFT_SHIFT_COMMAND))
             {
-		
+              _process_left_shift_command();
+              *p_flag=0;
+              *b_flag=0;
             }
             if(!strcmp(word,LINE_WIDTH_COMMAND))
-            {
-               
-
+            { 
+              _process_line_width_command(fp);
+              *p_flag=0;
+              *b_flag=0;
             }
 
        }
@@ -75,7 +94,7 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
        {
          *p_flag=0;
          *b_flag=0;
-         _process_common_word(_line_count,_word_count,word);
+         _process_common_word(*_line_count,*_word_count,word);
        }
        
        memset(word,'\0',MAX_LINE_LENGTH);
@@ -92,11 +111,10 @@ int _word_is_command(char * word){
 void _process_break_command()
 {
     _one_line[strlen(_one_line)-1]='\0';//delete the last space
-    for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
-        strcat(_result," ");
+    strcat(_one_line,"\r\n");// add extra end char for old lines 
+    for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
+        strcat(_one_line," ");
     }
-    strcat(_one_line,"\r");
-    strcat(_one_line,"\n");// add extra end char for old lines 
     strcat(_result,_one_line); // copy one_line to one_line_result
     memset(_one_line,'\0',MAX_LINE_LENGTH); // clear current line 
 }
@@ -105,15 +123,34 @@ void _process_break_command()
 **/
 void _process_blank_command(){
     _one_line[strlen(_one_line)-1]='\0';//delete the last space
-    for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
-        strcat(_result," ");
+    strcat(_one_line,"\r\n\r\n");// add extra end char for old lines 
+    for(int i=0;i<LEFT_SHIFT;++i){
+        strcat(_one_line," ");
     }
-    strcat(_one_line,"\r");// add extra end char for old lines 
-    strcat(_one_line,"\n");
-    strcat(_one_line,"\r");
-    strcat(_one_line,"\n");
     strcat(_result,_one_line); // copy one_line to one_line_result
     memset(_one_line,'\0',MAX_LINE_LENGTH); // clear current line 
+}
+void _process_left_shift_command(){
+
+}
+void _process_line_width_command(FILE *fp)
+{
+   strcat(_one_line,"\r");
+   strcat(_one_line,"\n");
+   strcat(_result,"    "); // add first 4 spaces
+   strcat(_result,_one_line); // copy one_line to one_line_result
+   memset(_one_line,'\0',MAX_LINE_LENGTH);
+   *_line_count=0;
+   fgetc(fp); // skip current char which is space
+   char number_char;
+   int width_number;
+   while((number_char = fgetc(fp)) != ' '){
+       stract(_number,number_char);
+   }
+   sscanf(_number, "%d", &width_number);
+   printf("%d",width_number);
+   LENGTH_LIMIT = width_number;
+
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word){
     if(*_line_count + *_word_count < LENGTH_LIMIT)
@@ -126,9 +163,9 @@ void _process_common_word(int *_line_count,int *_word_count,char *word){
      else
      {
         _one_line[strlen(_one_line)-1]='\0';//delete the last space
-        strcat(_result,"    "); // add first 4 spaces
-	strcat(_one_line,"\r");
+        strcat(_one_line,"\r");
         strcat(_one_line,"\n");
+        strcat(_result,"    "); // add first 4 spaces
         strcat(_result,_one_line); // copy one_line to one_line_result
         memset(_one_line,'\0',MAX_LINE_LENGTH);
         *_line_count=0;
@@ -183,4 +220,3 @@ int main(int argc, char **argv)
     fclose(writer);
     return 0;
 }
-
