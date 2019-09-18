@@ -161,6 +161,7 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    printf("%d\n",width_number);
    LENGTH_LIMIT = width_number;
    memset(_number,'\0',3); // initialize result array
+   printf("%s\n",_result);
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word){
     if(*_line_count + *_word_count < LENGTH_LIMIT)
