@@ -84,7 +84,7 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
             }
             if(!strcmp(word,LINE_WIDTH_COMMAND))
             { 
-              _process_line_width_command(fp);
+              _process_line_width_command(fp,_line_count);
               *p_flag=0;
               *b_flag=0;
             }
