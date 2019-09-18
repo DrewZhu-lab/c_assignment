@@ -160,16 +160,13 @@ void _process_line_width_command(FILE *fp,int * _line_count)
        if(number_char==13 || number_char==12){
             break;
        }
-       printf("%d",number_char);
        _number[number_count]=number_char;
        number_count++;
    }
-   printf("current char %d\n",number_char);
-   // width_number = atoi(_number);
-   // printf("%d\n",width_number);
-   // LENGTH_LIMIT = width_number;
-   // memset(_number,'\0',3); // initialize result array
-   // printf("%s\n",_result);
+   width_number = atoi(_number);
+   LENGTH_LIMIT = width_number;
+   memset(_number,'\0',3); // initialize result array
+   printf("%s\n",_result);
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word){
     if(*_line_count + *_word_count < LENGTH_LIMIT)
