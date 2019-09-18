@@ -149,8 +149,7 @@ void _process_line_width_command(FILE *fp,int * _line_count)
        _number[number_count]=number_char;
        number_count++;
    }
-   sscanf(_number, "%d", &width_number);
-   printf("%d",width_number);
+   width_number = atoi(number_char);
    LENGTH_LIMIT = width_number;
    memset(_number,'\0',MAX_LINE_LENGTH); // initialize result array
 }
