@@ -21,7 +21,7 @@ void _process_line_width_command(FILE * fp,int * _line_count);
 void _process_common_word(int *_line_count,int *_word_count,char *word);
 int _word_is_command(char * word);
 /****************************************************************/
-static int LENGTH_LIMIT=50; // maximum line length 
+int LENGTH_LIMIT=50; // maximum line length 
 static int LEFT_SHIFT=4;    // shift space
 static char _one_line[MAX_LINE_LENGTH]; // one line words smaller than MAX_LINE_LENGTH
 static char _result[MAX_LINE_LENGTH];
@@ -76,15 +76,17 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
                   *b_flag=0;
                 }
             }
+
             if(!strcmp(word,LEFT_SHIFT_COMMAND))
             {
               _process_left_shift_command();
               *p_flag=0;
               *b_flag=0;
             }
+
             if(!strcmp(word,LINE_WIDTH_COMMAND))
             { 
-              //_process_line_width_command(fp,_line_count);
+              _process_line_width_command(fp,_line_count);
               *p_flag=0;
               *b_flag=0;
             }
