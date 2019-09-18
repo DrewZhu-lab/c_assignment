@@ -152,14 +152,15 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    strcat(_result,_one_line); // copy one_line to one_line_result
    memset(_one_line,'\0',MAX_LINE_LENGTH);
    *_line_count=0;
-   // char number_char;
-   // int number_count=0;
-   // int width_number;
-   // while((number_char = fgetc(fp)) != 32)
-   // {
-   //     _number[number_count]=number_char;
-   //     number_count++;
-   // }
+   char number_char;
+   int number_count=0;
+   int width_number;
+   while((number_char = fgetc(fp)) != 32)
+   {
+       _number[number_count]=number_char;
+       number_count++;
+   }
+   printf("current char %d\n",number_char);
    // width_number = atoi(_number);
    // printf("%d\n",width_number);
    // LENGTH_LIMIT = width_number;
