@@ -147,7 +147,7 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    int width_number;
    while((number_char = fgetc(fp)) != ' '){
        _number[number_count]=number_char;
-       number_char++;
+       number_count++;
    }
    sscanf(_number, "%d", &width_number);
    printf("%d",width_number);
