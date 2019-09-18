@@ -157,6 +157,7 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    int width_number;
    while((number_char = fgetc(fp)) != 32)
    {
+       printf("%d",number_char);
        _number[number_count]=number_char;
        number_count++;
    }
