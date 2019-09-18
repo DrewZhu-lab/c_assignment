@@ -150,6 +150,7 @@ void _process_line_width_command(FILE *fp,int * _line_count)
        number_count++;
    }
    width_number = atoi(_number);
+   printf(width_number);
    LENGTH_LIMIT = width_number;
    memset(_number,'\0',3); // initialize result array
 }
