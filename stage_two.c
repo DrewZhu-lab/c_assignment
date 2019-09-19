@@ -261,25 +261,23 @@ void _process_line_width_command(FILE *fp,int * _line_count)
        number_count++;
    }
    width_number = atoi(_number);
-   printf("Left shift is **************%d",LEFT_SHIFT);
-   printf("Length limit is **********%d",LENGTH_LIMIT);
    LENGTH_LIMIT = width_number;
    memset(_number,'\0',3); // initialize result array
 
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word)
 {
-    if(*_line_count + *_word_count < LENGTH_LIMIT)
+    if(*_line_count + *_word_count <= LENGTH_LIMIT)
      {
          (*_line_count)++;  // one space
          *_line_count+=*_word_count; // add word length
-         strcat(_one_line,word);
-         strcat(_one_line," ");       
+         strcat(_one_line,word);//copy the word into one_line
+         strcat(_one_line," "); //copy empty one empty space into_line
      }
      else
      {
-        _one_line[strlen(_one_line)-1]='\0';//delete the last space
-        strcat(_one_line,"\r");
+	_one_line[strlen(_one_line)-1]='\0';//delete the last space
+	strcat(_one_line,"\r");
         strcat(_one_line,"\n");
         for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
@@ -290,6 +288,7 @@ void _process_common_word(int *_line_count,int *_word_count,char *word)
         strcat(_one_line,word);
         strcat(_one_line," ");
         *_line_count+=*_word_count;
+	(*_line_count)++;
      }
 
 }
@@ -330,8 +329,8 @@ int main(int argc, char **argv)
     }
     _process_file(fp);
     // process last line
-    
-    _one_line[strlen(_one_line)-1]='\0';
+     _one_line[strlen(_one_line)-1]='\0'; //delete the last space
+
     strcat(_one_line,"\r");
     strcat(_one_line,"\n");
     for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
