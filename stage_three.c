@@ -292,17 +292,14 @@ void _process_header_command(FILE *fp,int * _line_count)
             for(int i =0;i<LENGTH_LIMIT;++i){
                strcat(_result,"-");
             }
-            char level_count;
+            char level_count[1];
             strcat(_result,"\r");
             strcat(_result,"\n");
-            sprintf(level_count, " %d" , _header_count);
+            sprintf(level_count, "%d" , _header_count);
             stract(_result,level_count);
             _header_count++;
             break;
        case 2:
-
-            break;
-       case :
 
             break;
 
