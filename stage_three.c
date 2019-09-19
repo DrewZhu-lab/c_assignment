@@ -282,7 +282,7 @@ void _process_header_command(FILE *fp,int * _line_count)
         memset(_one_line,'\0',MAX_LINE_LENGTH);
         *_line_count=0;
     }
-    int header_line = stoi(fgetc(fp));
+    int header_line = atoi(fgetc(fp));
     switch(header_line)
     {
        case 1: 
@@ -294,7 +294,7 @@ void _process_header_command(FILE *fp,int * _line_count)
             }
             strcat(_result,"\r");
             strcat(_result,"\n");
-            stract(_result,_header_count);
+            stract(_result,itoa(_header_count));
             _header_count++;
             break;
        case 2:
@@ -304,27 +304,27 @@ void _process_header_command(FILE *fp,int * _line_count)
 
     }
 
-    while(line_char=fgetc(fp))
-    {
-        if(line_char==13|| line_char==10){
-            break;
-       }
-       _temp_line[tmp_line_count]=line_char;
-       ++tmp_line_count;
-    }
-    if(tmp_line_count + LEFT_SHIFT>LENGTH_LIMIT){
-        memset(_temp_line,'\0',MAX_LINE_LENGTH);
-    }
-    else
-    {
-        int left_indent = (LENGTH_LIMIT-tmp_line_count)/2;
-        strcat(_temp_line,"\r");
-        strcat(_temp_line,"\n");
-        for(int i=0;i<left_indent;++i){ // add shift spaces for old lines
-                strcat(_result," ");
-        }
-        strcat(_result,_temp_line);
-    }
+    // while(line_char=fgetc(fp))
+    // {
+    //     if(line_char==13|| line_char==10){
+    //         break;
+    //    }
+    //    _temp_line[tmp_line_count]=line_char;
+    //    ++tmp_line_count;
+    // }
+    // if(tmp_line_count + LEFT_SHIFT>LENGTH_LIMIT){
+    //     memset(_temp_line,'\0',MAX_LINE_LENGTH);
+    // }
+    // else
+    // {
+    //     int left_indent = (LENGTH_LIMIT-tmp_line_count)/2;
+    //     strcat(_temp_line,"\r");
+    //     strcat(_temp_line,"\n");
+    //     for(int i=0;i<left_indent;++i){ // add shift spaces for old lines
+    //             strcat(_result," ");
+    //     }
+    //     strcat(_result,_temp_line);
+    // }
 
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word)
