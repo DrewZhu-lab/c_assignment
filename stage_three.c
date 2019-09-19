@@ -23,6 +23,7 @@ void _process_left_shift_command(FILE * fp,int * _line_count);
 void _process_line_width_command(FILE * fp,int * _line_count);
 void _process_common_word(int *_line_count,int *_word_count,char *word);
 void _process_center_command(FILE *fp,int *_line_count);
+void _process_header_command();
 int _word_is_command(char * word);
 /****************************************************************/
 static int LENGTH_LIMIT=50; // maximum line length 
