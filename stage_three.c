@@ -137,8 +137,8 @@ int _word_is_command(char * word){
 void _process_break_command()
 {
     _one_line[strlen(_one_line)-1]='\0';//delete the last space
-    strcat(_one_line,"\r\n");// add extra end char for old lines 
-    //strcat(_one_line,"");// add extra end char for old lines 
+    strcat(_one_line,"\r");// add extra end char for old lines 
+    strcat(_one_line,"\n");// add extra end char for old lines 
     for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
         strcat(_result," ");
     }
