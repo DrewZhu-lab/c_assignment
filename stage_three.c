@@ -282,7 +282,7 @@ void _process_header_command(FILE *fp,int * _line_count)
         memset(_one_line,'\0',MAX_LINE_LENGTH);
         *_line_count=0;
     }
-    int header_line = atoi(fgetc(fp));
+    int header_line = fgetc(fp)-'0';
     switch(header_line)
     {
        case 1: 
@@ -298,6 +298,9 @@ void _process_header_command(FILE *fp,int * _line_count)
             _header_count++;
             break;
        case 2:
+
+            break;
+       case 3:
 
             break;
 
