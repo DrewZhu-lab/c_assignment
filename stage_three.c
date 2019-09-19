@@ -23,7 +23,7 @@ void _process_left_shift_command(FILE * fp,int * _line_count);
 void _process_line_width_command(FILE * fp,int * _line_count);
 void _process_common_word(int *_line_count,int *_word_count,char *word);
 void _process_center_command(FILE *fp,int *_line_count);
-void _process_header_command();
+void _process_header_command(FILE *fp,int *_line_count);
 int _word_is_command(char * word);
 /****************************************************************/
 static int LENGTH_LIMIT=50; // maximum line length 
@@ -32,6 +32,7 @@ static int CONSECUTIVE_MARGIN_CHANGE=0; // should add new line or not
 static char _one_line[MAX_LINE_LENGTH]; // one line words smaller than MAX_LINE_LENGTH
 static char _result[FILE_MAX_SIZE];
 static char _number[3];
+static int _header_count=1;
 void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * blank_flag,int* _line_count,int *p_flag,int *b_flag)
 {
 
@@ -106,6 +107,10 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
             {
               _process_center_command(fp,_line_count);
             }
+        else if(!strcmp(word,HEADER_LINE_COMMAND))
+            {
+              _process_header_command(fp,_line_count);
+            }
        }
        else
        {
@@ -124,7 +129,7 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
     }
 }
 int _word_is_command(char * word){
-    return !strcmp(word,BLANK_LINE_COMMAND) || !strcmp(word,BREAK_LINE_COMMAND)|| !strcmp(word,LEFT_SHIFT_COMMAND) || !strcmp(word,LINE_WIDTH_COMMAND) || !strcmp(word,CENTER_LINE_COMMAND);
+    return !strcmp(word,HEADER_LINE_COMMAND) ||!strcmp(word,BLANK_LINE_COMMAND) || !strcmp(word,BREAK_LINE_COMMAND)|| !strcmp(word,LEFT_SHIFT_COMMAND) || !strcmp(word,LINE_WIDTH_COMMAND) || !strcmp(word,CENTER_LINE_COMMAND);
 }
 /**  break current line
     the next word would be the next newline.
@@ -179,10 +184,8 @@ void _process_center_command(FILE *fp,int *_line_count)
     int  tmp_line_count=0;
     char _temp_line[MAX_LINE_LENGTH];
     memset(_temp_line,'\0',MAX_LINE_LENGTH);
-    printf("*****************\n");
     while(line_char=fgetc(fp))
     {
-        printf("current char is %c\n",line_char);
         if(line_char==13|| line_char==10){
             break;
        }
@@ -194,8 +197,6 @@ void _process_center_command(FILE *fp,int *_line_count)
     }
     else
     {
-        // to do .....center the line
-        
         int left_indent = (LENGTH_LIMIT-tmp_line_count)/2;
         strcat(_temp_line,"\r");
         strcat(_temp_line,"\n");
@@ -267,6 +268,65 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    memset(_number,'\0',3); // initialize result array
 
 }
+void _process_header_command(FILE *fp,int * _line_count)
+{
+    if(_one_line[0]!='\0')
+    {
+        _one_line[strlen(_one_line)-1]='\0';//delete the last space
+        strcat(_one_line,"\r");
+        strcat(_one_line,"\n");
+        for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+                strcat(_result," ");
+        }
+        strcat(_result,_one_line); // copy one_line to one_line_result
+        memset(_one_line,'\0',MAX_LINE_LENGTH);
+        *_line_count=0;
+    }
+    int header_line = stoi(fgetc(fp));
+    switch(header_line)
+    {
+       case 1: 
+            for(int i =0;i<LEFT_SHIFT;++i){
+               strcat(_result," ");
+            }
+            for(int i =0;i<LENGTH_LIMIT;++i){
+               strcat(_result,"-");
+            }
+            strcat(_result,"\r");
+            strcat(_result,"\n");
+            stract(_result,_header_count);
+            _header_count++;
+            break;
+       case 2:
+
+            break;
+
+
+    }
+
+    while(line_char=fgetc(fp))
+    {
+        if(line_char==13|| line_char==10){
+            break;
+       }
+       _temp_line[tmp_line_count]=line_char;
+       ++tmp_line_count;
+    }
+    if(tmp_line_count + LEFT_SHIFT>LENGTH_LIMIT){
+        memset(_temp_line,'\0',MAX_LINE_LENGTH);
+    }
+    else
+    {
+        int left_indent = (LENGTH_LIMIT-tmp_line_count)/2;
+        strcat(_temp_line,"\r");
+        strcat(_temp_line,"\n");
+        for(int i=0;i<left_indent;++i){ // add shift spaces for old lines
+                strcat(_result," ");
+        }
+        strcat(_result,_temp_line);
+    }
+
+}
 void _process_common_word(int *_line_count,int *_word_count,char *word)
 {
     if(*_line_count + *_word_count <= LENGTH_LIMIT)
@@ -278,8 +338,8 @@ void _process_common_word(int *_line_count,int *_word_count,char *word)
      }
      else
      {
-	_one_line[strlen(_one_line)-1]='\0';//delete the last space
-	strcat(_one_line,"\r");
+      	_one_line[strlen(_one_line)-1]='\0';//delete the last space
+      	strcat(_one_line,"\r");
         strcat(_one_line,"\n");
         for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
@@ -290,7 +350,7 @@ void _process_common_word(int *_line_count,int *_word_count,char *word)
         strcat(_one_line,word);
         strcat(_one_line," ");
         *_line_count+=*_word_count;
-	(*_line_count)++;
+	     (*_line_count)++;
      }
 
 }
