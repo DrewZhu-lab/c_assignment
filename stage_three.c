@@ -295,9 +295,21 @@ void _process_header_command(FILE *fp,int * _line_count)
             char level_count[20];
             strcat(_result,"\r");
             strcat(_result,"\n");
+            for(int i =0;i<LEFT_SHIFT;++i){
+               strcat(_result," ");
+            }
             sprintf(level_count, "%d", _header_count);
             strcat(_result,level_count);
             _header_count++;
+            char temp_char;
+            while(temp_char=fgetc(fp)){
+                if(temp_char==13 || temp_char==10){
+                   break;
+                }
+                strcat(_result);
+            }
+            strcat(_result,"\r");
+            strcat(_result,"\n");
             break;
        case 2:
 
