@@ -306,7 +306,7 @@ void _process_header_command(FILE *fp,int * _line_count)
                 if(temp_char==13 || temp_char==10){
                    break;
                 }
-                strcat(_result);
+                strcat(_result,temp_char);
             }
             strcat(_result,"\r");
             strcat(_result,"\n");
