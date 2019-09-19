@@ -187,10 +187,6 @@ void _process_center_command(FILE *fp,int *_line_count)
        _temp_line[tmp_line_count]=line_char;
        ++tmp_line_count;
     }
-    printf("%d\n",tmp_line_count);
-    printf("*****************\n");
-    printf("Left shift is **************%d",LEFT_SHIFT);
-    printf("Length limit is **********%d",LENGTH_LIMIT);
     if(tmp_line_count + LEFT_SHIFT>LENGTH_LIMIT){
         memset(_temp_line,'\0',MAX_LINE_LENGTH);
     }
@@ -265,6 +261,8 @@ void _process_line_width_command(FILE *fp,int * _line_count)
        number_count++;
    }
    width_number = atoi(_number);
+   printf("Left shift is **************%d",LEFT_SHIFT);
+   printf("Length limit is **********%d",LENGTH_LIMIT);
    LENGTH_LIMIT = width_number;
    memset(_number,'\0',3); // initialize result array
 
