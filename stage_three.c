@@ -137,8 +137,8 @@ int _word_is_command(char * word){
 void _process_break_command()
 {
     _one_line[strlen(_one_line)-1]='\0';//delete the last space
-    strcat(_one_line,"\r");// add extra end char for old lines 
-    strcat(_one_line,"\n");// add extra end char for old lines 
+    strcat(_one_line,"\r\n");// add extra end char for old lines 
+    //strcat(_one_line,"");// add extra end char for old lines 
     for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
         strcat(_result," ");
     }
@@ -308,37 +308,24 @@ void _process_header_command(FILE *fp,int * _line_count)
                 }
                 strcat(_result,&temp_char);
             }
-            strcat(_result,"\r");
-            strcat(_result,"\n");
+            
             break;
        case 2:
 
             break;
-
+       case 3:
+            break;
+       case 4:
+            break;
+       case 5:
+            break;
+       default:
+            break;
 
     }
+    strcat(_result,"\r");
+    strcat(_result,"\n");
 
-    // while(line_char=fgetc(fp))
-    // {
-    //     if(line_char==13|| line_char==10){
-    //         break;
-    //    }
-    //    _temp_line[tmp_line_count]=line_char;
-    //    ++tmp_line_count;
-    // }
-    // if(tmp_line_count + LEFT_SHIFT>LENGTH_LIMIT){
-    //     memset(_temp_line,'\0',MAX_LINE_LENGTH);
-    // }
-    // else
-    // {
-    //     int left_indent = (LENGTH_LIMIT-tmp_line_count)/2;
-    //     strcat(_temp_line,"\r");
-    //     strcat(_temp_line,"\n");
-    //     for(int i=0;i<left_indent;++i){ // add shift spaces for old lines
-    //             strcat(_result," ");
-    //     }
-    //     strcat(_result,_temp_line);
-    // }
 
 }
 void _process_common_word(int *_line_count,int *_word_count,char *word)
