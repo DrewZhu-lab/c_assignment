@@ -296,7 +296,7 @@ void _process_header_command(FILE *fp,int * _line_count)
             strcat(_result,"\r");
             strcat(_result,"\n");
             sprintf(level_count, "%d", _header_count);
-            stract(_result,level_count);
+            strcat(_result,level_count);
             _header_count++;
             break;
        case 2:
