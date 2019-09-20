@@ -15,16 +15,16 @@
 /****************************************************************/
 
 /* function prototypes */
-void _process_file(FILE * fp);
-void _process_char(FILE *fp,char ch,char* word,int * blank_flag,int * _word_count,int* _line_count,int *p_flag,int *b_flag);
+void _process_file();
+void _process_char(char ch,char* word,int * blank_flag,int * _word_count,int* _line_count,int *p_flag,int *b_flag);
 void _process_break_command();
 void _process_blank_command();
-void _process_left_shift_command(FILE * fp,int * _line_count);
-void _process_line_width_command(FILE * fp,int * _line_count);
+void _process_left_shift_command(int * _line_count);
+void _process_line_width_command(int * _line_count);
 void _process_common_word(int *_line_count,int *_word_count,char *word);
-void _process_center_command(FILE *fp,int *_line_count);
-void _process_header_command(FILE *fp,int *_line_count);
-void _process_level_information(FILE *fp,int level);
+void _process_center_command(int *_line_count);
+void _process_header_command(int *_line_count);
+void _process_level_information(int level);
 int _word_is_command(char * word);
 /****************************************************************/
 static int LENGTH_LIMIT=50; // maximum line length 
@@ -42,7 +42,7 @@ static int current_level_one=1;
 static int current_level_two=1;
 static int current_level_three=1;
 static int current_level_four=1;
-void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * blank_flag,int* _line_count,int *p_flag,int *b_flag)
+void _process_char(char each_char,char* word,int * _word_count,int * blank_flag,int* _line_count,int *p_flag,int *b_flag)
 {
 
     if (isalpha(each_char)||isdigit(each_char)||ispunct(each_char)) 
@@ -97,26 +97,26 @@ void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * bl
 
         else  if(!strcmp(word,LEFT_SHIFT_COMMAND))
             {
-              _process_left_shift_command(fp,_line_count);
+              _process_left_shift_command(getchar()_line_count);
               *p_flag=0;
               *b_flag=0;
             }
 
         else if(!strcmp(word,LINE_WIDTH_COMMAND))
             { 
-              _process_line_width_command(fp,_line_count);
+              _process_line_width_command(_line_count);
               *p_flag=0;
               *b_flag=0;
             }
         else if(!strcmp(word,CENTER_LINE_COMMAND))
             {
-              _process_center_command(fp,_line_count);
+              _process_center_command(_line_count);
               *p_flag=0;
               *b_flag=0;
             }
         else if(!strcmp(word,HEADER_LINE_COMMAND))
             {
-              _process_header_command(fp,_line_count);
+              _process_header_command(_line_count);
               *p_flag=0;
               *b_flag=0;
             }
@@ -203,7 +203,7 @@ void _process_blank_command(){
 /** center the current line
     the next word would be the next newline.
 **/
-void _process_center_command(FILE *fp,int *_line_count)
+void _process_center_command(int *_line_count)
 {
     if(_one_line[0]!='\0')
     {
@@ -216,8 +216,8 @@ void _process_center_command(FILE *fp,int *_line_count)
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
         strcat(_result,"\r");
-	strcat(_result,"\n");
-	memset(_one_line,'\0',MAX_LINE_LENGTH);
+      	strcat(_result,"\n");
+      	memset(_one_line,'\0',MAX_LINE_LENGTH);
         *_line_count=0;
     }
     
@@ -226,7 +226,7 @@ void _process_center_command(FILE *fp,int *_line_count)
     char _temp_line[MAX_LINE_LENGTH];
     int   skip_space =0;
     memset(_temp_line,'\0',MAX_LINE_LENGTH);
-    while(line_char=fgetc(fp))
+    while(line_char=getchar())
     {
         if(line_char==13 || line_char==10)
         {
@@ -267,7 +267,7 @@ void _process_center_command(FILE *fp,int *_line_count)
     }
     CONSECUTIVE_MARGIN_CHANGE=0;
 }
-void _process_left_shift_command(FILE *fp,int * _line_count){
+void _process_left_shift_command(int * _line_count){
     if(_one_line[0]!='\0')
     {
         _one_line[strlen(_one_line)-1]='\0';//delete the last space
@@ -291,7 +291,7 @@ void _process_left_shift_command(FILE *fp,int * _line_count){
     char number_char;
     int number_count=0;
     int shift_number;
-    while(number_char=fgetc(fp))
+    while(number_char=getchar())
     {
        
        if(number_char==13|| number_char==10){
@@ -304,7 +304,7 @@ void _process_left_shift_command(FILE *fp,int * _line_count){
     LEFT_SHIFT = shift_number;
     memset(_number,'\0',3); // initialize number array
 }
-void _process_line_width_command(FILE *fp,int * _line_count)
+void _process_line_width_command(int * _line_count)
 {
    if(_one_line[0]!='\0')
    {
@@ -328,7 +328,7 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    char number_char;
    int number_count=0;
    int width_number;
-   while(number_char=fgetc(fp))
+   while(number_char=getchar())
    {
        if(number_char==13|| number_char==10){
             break;
@@ -341,7 +341,7 @@ void _process_line_width_command(FILE *fp,int * _line_count)
    memset(_number,'\0',3); // initialize result array
 
 }
-void _process_header_command(FILE *fp,int * _line_count)
+void _process_header_command(int * _line_count)
 {
     if(_one_line[0]!='\0')
     {
@@ -362,8 +362,8 @@ void _process_header_command(FILE *fp,int * _line_count)
         memset(_one_line,'\0',MAX_LINE_LENGTH);
         *_line_count=0;
     }
-    int header_line = fgetc(fp)-'0';
-    _process_level_information(fp,header_line);
+    int header_line = getchar()-'0';
+    _process_level_information(header_line);
     strcat(_result,"\r");
     strcat(_result,"\n");
 
@@ -397,7 +397,7 @@ void _process_common_word(int *_line_count,int *_word_count,char *word)
      }
 
 }
-void _process_level_information(FILE *fp,int level)
+void _process_level_information(int level)
 {
     char temp_char[2];
     int level_count_length = level * 2;
@@ -547,7 +547,7 @@ void _process_level_information(FILE *fp,int level)
         strcat(_result," ");
     }
     strcat(_result,level_count);
-    while(temp_char[0]=fgetc(fp))
+    while(temp_char[0]=getchar())
     {
         if(temp_char[0]==13 || temp_char[0]==10)
         {
@@ -574,7 +574,7 @@ void _process_level_information(FILE *fp,int level)
     strcat(_result,"\n");
 
 }
-void _process_file(FILE * fp)
+void _process_file()
 {
     char each_char;
     char word[MAX_LINE_LENGTH];
@@ -587,9 +587,9 @@ void _process_file(FILE * fp)
     memset(_one_line,'\0',MAX_LINE_LENGTH); // initialize line array
     memset(_result,'\0',FILE_MAX_SIZE); // initialize result array
     memset(_number,'\0',3); // initialize result array
-    while ((each_char = fgetc(fp)) != EOF) 
+    while ((each_char = getchar()) != EOF) 
     {
-        _process_char(fp,
+        _process_char(
                    each_char,
                    word,
                    &_word_count,
@@ -602,13 +602,8 @@ void _process_file(FILE * fp)
 }
 int main(int argc, char **argv)
 {
-    FILE *fp = fopen(argv[1],"r");
-    if (!fp)
-    {
-        printf("cant oepn file");
-        return -1;
-    }
-    _process_file(fp);
+    
+    _process_file();
     // process last line
     if(_one_line[0]!='\0'){
     
@@ -622,9 +617,6 @@ int main(int argc, char **argv)
         }
       strcat(_result,_one_line);
     }
-    FILE *writer = fopen(argv[2],"w");
-    fprintf(writer,"%s",_result);
-    fclose(fp);
-    fclose(writer);
+    printf("%s",_result);
     return 0;
 }

@@ -329,7 +329,6 @@ int main(int argc, char **argv)
     _process_file();
     // process last line
      _one_line[strlen(_one_line)-1]='\0'; //delete the last space
-
     strcat(_one_line,"\r");
     strcat(_one_line,"\n");
     int i;
