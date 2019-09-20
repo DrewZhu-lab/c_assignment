@@ -125,7 +125,7 @@ int main(int argc, char **argv)
     FILE *fp = fopen(argv[1],"r");
     if (!fp)
     {
-        printf("cant oepn file");
+        printf("cant open file");
         return -1;
     }
     _process_file(fp);
@@ -135,9 +135,10 @@ int main(int argc, char **argv)
     strcat(_one_line,"\r");// add first 4 spaces
     strcat(_one_line,"\n");
     strcat(_result,_one_line);
-    FILE *writer = fopen(argv[2],"w");
-    fprintf(writer,"%s",_result);
+    //FILE *writer = fopen(argv[2],"w");
+    //fprintf(writer,"%s",_result);
     fclose(fp);
-    fclose(writer);
+    printf("%s\n",_result);
+    //fclose(writer);
     return 0;
 }
