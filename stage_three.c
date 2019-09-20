@@ -97,7 +97,7 @@ void _process_char(char each_char,char* word,int * _word_count,int * blank_flag,
 
         else  if(!strcmp(word,LEFT_SHIFT_COMMAND))
             {
-              _process_left_shift_command(getchar()_line_count);
+              _process_left_shift_command(_line_count);
               *p_flag=0;
               *b_flag=0;
             }
