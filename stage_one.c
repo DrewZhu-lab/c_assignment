@@ -78,7 +78,8 @@ void _process_break_command()
 {
     _one_line[strlen(_one_line)-1]='\0';//delete the last space
     strcat(_one_line,"\r\n");// add extra end char for old lines 
-    for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
+    int i;
+    for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
         strcat(_one_line," ");
     }
     strcat(_result,_one_line); // copy one_line to one_line_result
@@ -90,7 +91,8 @@ void _process_break_command()
 void _process_blank_command(){
     _one_line[strlen(_one_line)-1]='\0';//delete the last space
     strcat(_one_line,"\r\n\r\n");// add extra end char for old lines 
-    for(int i=0;i<LEFT_SHIFT;++i){
+    int i;
+    for(i=0;i<LEFT_SHIFT;++i){
         strcat(_one_line," ");
     }
     strcat(_result,_one_line); // copy one_line to one_line_result
