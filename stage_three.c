@@ -409,10 +409,11 @@ void _process_level_information(int level)
         strcat(_result,"\n");
         CONSECUTIVE_MARGIN_CHANGE=1;
     }
+    int i;
     switch(level)
     {
         case 1: 
-            int i;
+            
             for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
             }
