@@ -206,13 +206,13 @@ void _process_center_command(FILE *fp,int *_line_count)
     if(_one_line[0]!='\0')
     {
         _one_line[strlen(_one_line)-1]='\0';//delete the last space
-        strcat(_one_line,"\r");
-        strcat(_one_line,"\n");
         for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
-        memset(_one_line,'\0',MAX_LINE_LENGTH);
+        strcat(_result,"\r");
+	strcat(_result,"\n");
+	memset(_one_line,'\0',MAX_LINE_LENGTH);
         *_line_count=0;
     }
     
@@ -250,13 +250,13 @@ void _process_center_command(FILE *fp,int *_line_count)
     {
         int left_indent = (LENGTH_LIMIT-tmp_line_count)/2;
         strcat(_temp_line,"\r");
-        strcat(_temp_line,"\n");
-        for(int i =0;i<LEFT_SHIFT;++i){
+	strcat(_temp_line,"\n");
+	for(int i =0;i<LEFT_SHIFT;++i){
             strcat(_result," ");
         }
         for(int i=0;i<left_indent;++i){ // add shift spaces for old lines
             strcat(_result," ");
-        }
+	}
         strcat(_result,_temp_line);
     }
     CONSECUTIVE_MARGIN_CHANGE=0;
@@ -420,8 +420,14 @@ void _process_level_information(FILE *fp,int level)
             level_five_header_count=1;
             break;
         case 2:
-            level_count[0]=  current_level_one + '0';
-            level_count[1]=  '.';
+	    if(level_one_header_count!=1){
+		level_count[0]=  current_level_one + '0';
+                level_count[1]=  '.';
+            }
+	    else{
+	    	level_count[0]='0';
+		level_count[1]='.';
+	    }
             level_count[2]=  level_two_header_count + '0';
             level_count[3]= '\0';
             current_level_two=level_two_header_count;
@@ -430,11 +436,23 @@ void _process_level_information(FILE *fp,int level)
             level_four_header_count=1;
             level_five_header_count=1;
             break;
-        case 3:
-            level_count[0]=  current_level_one + '0';
-            level_count[1]=  '.';
-            level_count[2]=  current_level_two + '0';
-            level_count[3]=  '.';
+	case 3:
+	    if(level_one_header_count!=1){
+                level_count[0]=  current_level_one + '0';
+                level_count[1]=  '.';
+            }
+            else{
+                level_count[0]='0';
+		level_count[1]='.';
+            }
+	    if(level_two_header_count!=1){
+                level_count[2]=  current_level_two + '0';
+                level_count[3]=  '.';
+            }
+            else{
+                level_count[2]='0';
+		level_count[3]='.';
+            }
             level_count[4]=  level_three_header_count + '0';
             level_count[5]= '\0';
             current_level_three=level_three_header_count;
@@ -443,28 +461,72 @@ void _process_level_information(FILE *fp,int level)
             level_five_header_count=1;
             break;
         case 4:
-            level_count[0]=  current_level_one + '0';
-            level_count[1]=  '.';
-            level_count[2]=  current_level_two + '0';
-            level_count[3]=  '.';
-            level_count[4]=  current_level_three + '0';
-            level_count[5]=  '.';
-            level_count[6]=  level_four_header_count + '0';
+            if(level_one_header_count!=1){
+                level_count[0]=  current_level_one + '0';
+                level_count[1]=  '.';
+            }
+            else{
+                level_count[0]='0';
+                level_count[1]='.';
+            }
+            if(level_two_header_count!=1){
+                level_count[2]=  current_level_two + '0';
+                level_count[3]=  '.';
+            }
+            else{
+                level_count[2]='0';
+                level_count[3]='.';
+            }
+	    if(level_three_header_count!=1){
+                level_count[4]=  current_level_three + '0';
+                level_count[5]=  '.';
+            }
+            else{
+                level_count[4]='0';
+                level_count[5]='.';
+            }
+
+	    level_count[6]=  level_four_header_count + '0';
             level_count[7]= '\0';
             current_level_four =level_four_header_count;
             level_four_header_count++;
             level_five_header_count=1;
             break;
         case 5:
-            level_count[0]=  current_level_one + '0';
-            level_count[1]=  '.';
-            level_count[2]=  current_level_two + '0';
-            level_count[3]=  '.';
-            level_count[4]=  current_level_three + '0';
-            level_count[5]=  '.';
-            level_count[6]=  current_level_four + '0';
-            level_count[7]=  '.';
-            level_count[8]=  level_five_header_count + '0';
+            if(level_one_header_count!=1){
+                level_count[0]=  current_level_one + '0';
+                level_count[1]=  '.';
+            }
+            else{
+                level_count[0]='0';
+                level_count[1]='.';
+            }
+            if(level_two_header_count!=1){
+                level_count[2]=  current_level_two + '0';
+                level_count[3]=  '.';
+            }
+            else{
+                level_count[2]='0';
+                level_count[3]='.';
+            }
+            if(level_three_header_count!=1){
+                level_count[4]=  current_level_three + '0';
+                level_count[5]=  '.';
+            }
+            else{
+                level_count[4]='0';
+                level_count[5]='.';
+            }
+	    if(level_four_header_count!=1){
+                level_count[6]=  current_level_four + '0';
+                level_count[7]=  '.';
+            }
+            else{
+                level_count[6]='0';
+                level_count[7]='.';
+            }
+
+	    level_count[8]=  level_five_header_count + '0';
             level_count[9]= '\0';
             level_five_header_count++;
             break;
@@ -537,14 +599,16 @@ int main(int argc, char **argv)
     }
     _process_file(fp);
     // process last line
-     _one_line[strlen(_one_line)-1]='\0'; //delete the last space
-
-    strcat(_one_line,"\r");
-    strcat(_one_line,"\n");
-    for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+    if(_one_line[0]!='\0'){
+    
+      _one_line[strlen(_one_line)-1]='\0'; //delete the last space
+      strcat(_one_line,"\r");
+      strcat(_one_line,"\n");
+      for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
             strcat(_result," ");
+      }
+      strcat(_result,_one_line);
     }
-    strcat(_result,_one_line);
     FILE *writer = fopen(argv[2],"w");
     fprintf(writer,"%s",_result);
     fclose(fp);
