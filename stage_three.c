@@ -212,11 +212,11 @@ void _process_center_command(int *_line_count)
         strcat(_one_line,"\n");
         int i;
         for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
-                strcat(_result," ");
+            strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
-        strcat(_result,"\r");
-      	strcat(_result,"\n");
+       //  strcat(_result,"\r");
+      	// strcat(_result,"\n");
       	memset(_one_line,'\0',MAX_LINE_LENGTH);
         *_line_count=0;
     }
