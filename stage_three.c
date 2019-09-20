@@ -150,7 +150,8 @@ void _process_break_command()
             strcat(_one_line,"\n");
             CONSECUTIVE_MARGIN_CHANGE=1;
         }
-        for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
+        int i;
+        for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
             strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
@@ -182,7 +183,8 @@ void _process_blank_command(){
             strcat(_one_line,"\n");// add extra end char for old lines 
             CONSECUTIVE_MARGIN_CHANGE=1;
         }
-        for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
+        int i;
+        for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for new lines
             strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
@@ -206,7 +208,10 @@ void _process_center_command(FILE *fp,int *_line_count)
     if(_one_line[0]!='\0')
     {
         _one_line[strlen(_one_line)-1]='\0';//delete the last space
-        for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+        strcat(_one_line,"\r");
+        strcat(_one_line,"\n");
+        int i;
+        for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
@@ -250,11 +255,12 @@ void _process_center_command(FILE *fp,int *_line_count)
     {
         int left_indent = (LENGTH_LIMIT-tmp_line_count)/2;
         strcat(_temp_line,"\r");
-	strcat(_temp_line,"\n");
-	for(int i =0;i<LEFT_SHIFT;++i){
+        strcat(_temp_line,"\n");
+        int i;
+        for(i =0;i<LEFT_SHIFT;++i){
             strcat(_result," ");
         }
-        for(int i=0;i<left_indent;++i){ // add shift spaces for old lines
+        for(i=0;i<left_indent;++i){ // add shift spaces for old lines
             strcat(_result," ");
 	}
         strcat(_result,_temp_line);
@@ -273,7 +279,8 @@ void _process_left_shift_command(FILE *fp,int * _line_count){
             strcat(_one_line,"\n");
             CONSECUTIVE_MARGIN_CHANGE=1;
         }
-        for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+        int i;
+        for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
             strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
@@ -310,7 +317,8 @@ void _process_line_width_command(FILE *fp,int * _line_count)
                 strcat(_one_line,"\n");
                 CONSECUTIVE_MARGIN_CHANGE=1;
         }
-        for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+        int i;
+        for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
@@ -346,7 +354,8 @@ void _process_header_command(FILE *fp,int * _line_count)
             strcat(_one_line,"\n");
             CONSECUTIVE_MARGIN_CHANGE=1;
         }
-        for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+        int i;
+        for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
@@ -374,7 +383,8 @@ void _process_common_word(int *_line_count,int *_word_count,char *word)
       	_one_line[strlen(_one_line)-1]='\0';//delete the last space
       	strcat(_one_line,"\r");
         strcat(_one_line,"\n");
-        for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+        int i;
+        for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
         }
         strcat(_result,_one_line); // copy one_line to one_line_result
@@ -402,10 +412,11 @@ void _process_level_information(FILE *fp,int level)
     switch(level)
     {
         case 1: 
-            for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+            int i;
+            for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
                 strcat(_result," ");
             }
-            for(int i=0;i<LENGTH_LIMIT;++i){
+            for(i=0;i<LENGTH_LIMIT;++i){
                 strcat(_result,"-");
             }
             strcat(_result,"\r");
@@ -531,8 +542,8 @@ void _process_level_information(FILE *fp,int level)
             level_five_header_count++;
             break;
     }
-    
-    for(int i =0;i<LEFT_SHIFT;++i){
+    int i;
+    for(i =0;i<LEFT_SHIFT;++i){
         strcat(_result," ");
     }
     strcat(_result,level_count);
@@ -601,12 +612,14 @@ int main(int argc, char **argv)
     // process last line
     if(_one_line[0]!='\0'){
     
-      _one_line[strlen(_one_line)-1]='\0'; //delete the last space
+       _one_line[strlen(_one_line)-1]='\0'; //delete the last space
+
       strcat(_one_line,"\r");
       strcat(_one_line,"\n");
-      for(int i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
-            strcat(_result," ");
-      }
+      int i;
+      for(i=0;i<LEFT_SHIFT;++i){ // add shift spaces for old lines
+              strcat(_result," ");
+        }
       strcat(_result,_one_line);
     }
     FILE *writer = fopen(argv[2],"w");
