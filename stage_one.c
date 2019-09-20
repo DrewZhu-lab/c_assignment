@@ -10,8 +10,8 @@
 /****************************************************************/
 
 /* function prototypes */
-void _process_file(FILE * fp);
-void _process_char(FILE *fp,char ch,char* word,int * blank_flag,int * _word_count,int* _line_count,int *p_flag,int *b_flag);
+void _process_file();
+void _process_char(char ch,char* word,int * blank_flag,int * _word_count,int* _line_count,int *p_flag,int *b_flag);
 void _process_break_command();
 void _process_blank_command();
 int _word_is_command(char * word);
@@ -20,7 +20,7 @@ static int LENGTH_LIMIT=50; // maximum line length
 static int LEFT_SHIFT=4;    // shift space
 static char _one_line[MAX_LINE_LENGTH]; // one line words smaller than MAX_LINE_LENGTH
 static char _result[MAX_LINE_LENGTH];
-void _process_char(FILE *fp,char each_char,char* word,int * _word_count,int * blank_flag,int* _line_count,int *p_flag,int *b_flag)
+void _process_char(char each_char,char* word,int * _word_count,int * blank_flag,int* _line_count,int *p_flag,int *b_flag)
 {
 
     if (isalpha(each_char)||isdigit(each_char)||ispunct(each_char)) 
@@ -98,7 +98,7 @@ void _process_blank_command(){
     strcat(_result,_one_line); // copy one_line to one_line_result
     memset(_one_line,'\0',MAX_LINE_LENGTH); // clear current line 
 }
-void _process_file(FILE * fp)
+void _process_file()
 {
     char each_char;
     char word[MAX_LINE_LENGTH];
@@ -110,9 +110,9 @@ void _process_file(FILE * fp)
     memset(word,'\0',MAX_LINE_LENGTH); // initialize word array
     memset(_one_line,'\0',MAX_LINE_LENGTH); // initialize line array
     memset(_result,'\0',MAX_LINE_LENGTH); // initialize result array
-    while ((each_char = fgetc(fp)) != EOF) 
+    while ((each_char = getchar()) != EOF) 
     {
-        _process_char(fp,
+        _process_char(
                    each_char,
                    word,
                    &_word_count,
@@ -124,22 +124,12 @@ void _process_file(FILE * fp)
 }
 int main(int argc, char **argv)
 {
-    FILE *fp = fopen(argv[1],"r");
-    if (!fp)
-    {
-        printf("cant open file");
-        return -1;
-    }
-    _process_file(fp);
-    // process last line
+    _process_file();
     strcat(_result,"    ");
     _one_line[strlen(_one_line)-1]='\0';
     strcat(_one_line,"\r");// add first 4 spaces
     strcat(_one_line,"\n");
     strcat(_result,_one_line);
-    //FILE *writer = fopen(argv[2],"w");
-    //fprintf(writer,"%s",_result);
-    fclose(fp);
     printf("%s\n",_result);
     //fclose(writer);
     return 0;
