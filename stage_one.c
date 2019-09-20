@@ -112,7 +112,7 @@ void _process_file()
     memset(_result,'\0',MAX_LINE_LENGTH); // initialize result array
     while ((each_char = getchar()) != EOF) 
     {
-        _process_char(
+	 _process_char(
                    each_char,
                    word,
                    &_word_count,
@@ -130,7 +130,6 @@ int main(int argc, char **argv)
     strcat(_one_line,"\r");// add first 4 spaces
     strcat(_one_line,"\n");
     strcat(_result,_one_line);
-    printf("%s\n",_result);
-    //fclose(writer);
+    printf("%s",_result);
     return 0;
 }
