@@ -543,7 +543,6 @@ void _process_level_information(int level)
             level_five_header_count++;
             break;
     }
-    int i;
     for(i =0;i<LEFT_SHIFT;++i){
         strcat(_result," ");
     }
